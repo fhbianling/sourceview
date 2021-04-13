@@ -12,7 +12,7 @@ import com.google.gson.reflect.TypeToken
  */
 class SourceCodeManager {
     private val gson = Gson()
-    fun query(ctx: Context, key: String): String {
+    fun querySourceCode(ctx: Context, key: String): String {
         val type = object : TypeToken<Map<String, Map<String, String>>>() {}.type
         ctx.assets.list("SourceCode")?.forEach {
             Log.d("SourceCodeManager", "query:$it")

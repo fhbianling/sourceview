@@ -1,3 +1,5 @@
+include ':sourceviewer'
+include ':sourceviewplugin'
 include ':sourceviewcore'
 include ':app'
 rootProject.name = "M_SourceView"

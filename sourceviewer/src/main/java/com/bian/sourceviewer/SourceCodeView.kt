@@ -1,11 +1,12 @@
-package com.bian.sourceviewcore.viewer
+package com.bian.sourceviewer
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.net.http.SslError
+import android.util.Log
 import android.view.View
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import com.bian.sourceviewcore.tool.SourceCodeManager
 import com.google.gson.Gson
 
@@ -34,11 +35,49 @@ class SourceCodeView(ctx: Context) : WebView(ctx) {
         webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
+                Log.d("SourceCodeView", "onPageFinished")
                 pagePrepared = url == BASE_URL
                 if (cacheSourceCodeDto != null && pagePrepared) {
                     displaySourceCode(cacheSourceCodeDto!!)
                     cacheSourceCodeDto = null
                 }
+            }
+
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: WebResourceError?
+            ) {
+                super.onReceivedError(view, request, error)
+                Log.d("SourceCodeView", "onReceivedError")
+            }
+
+            override fun onReceivedHttpError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                errorResponse: WebResourceResponse?
+            ) {
+                super.onReceivedHttpError(view, request, errorResponse)
+                Log.d("SourceCodeView", "onReceivedHttpError")
+            }
+
+            override fun onReceivedSslError(
+                view: WebView?,
+                handler: SslErrorHandler?,
+                error: SslError?
+            ) {
+                super.onReceivedSslError(view, handler, error)
+                Log.d("SourceCodeView", "onReceivedSslError")
+            }
+
+            override fun onReceivedError(
+                view: WebView?,
+                errorCode: Int,
+                description: String?,
+                failingUrl: String?
+            ) {
+                super.onReceivedError(view, errorCode, description, failingUrl)
+                Log.d("SourceCodeView", "onReceivedError")
             }
         }
     }
@@ -61,7 +100,8 @@ class SourceCodeView(ctx: Context) : WebView(ctx) {
 
     fun loadSourceCode(key: String?) {
         key?.let {
-            val source = SourceCodeManager.instance.query(context, key)
+            val source = SourceCodeManager.instance.querySourceCode(context, key)
+            Log.d("SourceCodeView", "load source code for $key is empty ? ${source.isEmpty()}")
             val dto = SourceCodeDto(key, source)
             displaySourceCode(dto)
         }

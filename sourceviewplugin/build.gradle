@@ -1,0 +1,33 @@
+plugins {
+    id 'groovy'
+    id 'maven'
+}
+
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.google.code.gson:gson:2.8.6'
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+    jcenter()
+    google()
+    mavenCentral()
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: uri('../repo')) //仓库的路径，此处是项目根目录下的 repo 的文件夹
+        pom.groupId = 'com.github.fhbianling'  //groupId ，自行定义，一般是包名
+        pom.artifactId = 'SourceCodePlugin' //artifactId ，自行定义
+        pom.version = '1.0.0' //version 版本号
+    }
+}
