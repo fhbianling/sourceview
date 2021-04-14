@@ -3,13 +3,9 @@ package com.bian.sourceviewer
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.LinearLayout
 
 /**
  * author fhbianling@163.com
@@ -17,17 +13,23 @@ import android.widget.LinearLayout
  * 类描述：
  */
 class SourceCodeViewer : Activity() {
-
+    private var orientation = Configuration.ORIENTATION_PORTRAIT
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val contentRoot = LinearLayout(this)
-        contentRoot.setBackgroundColor(Color.GREEN)
-        contentRoot.setPadding(50, 50, 50, 50)
-        val sourceCodeViewer = SourceCodeView(this)
-        contentRoot.addView(sourceCodeViewer, LayoutParams(MATCH_PARENT, MATCH_PARENT))
-        setContentView(contentRoot, LayoutParams(MATCH_PARENT, MATCH_PARENT))
+        setContentView(R.layout.activity_source_code_viewer)
+        orientation = resources.configuration.orientation
+        if (orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
         val key = intent.getStringExtra(KEY)
-        sourceCodeViewer.loadSourceCode(key)
+        findViewById<SourceCodeView>(R.id.sourceCodeView).loadSourceCode(key)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
     }
 
 
