@@ -14,5 +14,8 @@ class MainActivity : AppCompatActivity() {
 		findViewById<View>(R.id.test).setOnClickListener {
 			SourceCodeViewer.start(this,"main activity")
 		}
+		findViewById<View>(R.id.test1).setOnClickListener {
+			SourceCodeViewer.start(this,"test code")
+		}
 	}
 }
