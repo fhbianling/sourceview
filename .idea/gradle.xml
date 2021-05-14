@@ -11,14 +11,16 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/sourceviewcore" />
-            <option value="$PROJECT_DIR$/sourceviewer" />
-            <option value="$PROJECT_DIR$/sourceviewplugin" />
+            <option value="$PROJECT_DIR$/example_android_lib" />
+            <option value="$PROJECT_DIR$/example_app" />
+            <option value="$PROJECT_DIR$/example_java_lib" />
+            <option value="$PROJECT_DIR$/example_kotlin_lib" />
+            <option value="$PROJECT_DIR$/source-annotation" />
+            <option value="$PROJECT_DIR$/source-core" />
+            <option value="$PROJECT_DIR$/source-plugin" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
-        <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
     </option>
   </component>

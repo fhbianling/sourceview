@@ -1,0 +1,35 @@
+apply plugin: 'maven-publish'
+
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
+
+publishing {
+    publications {
+        releaseLocal(MavenPublication) {
+            groupId publishConfig.groupId
+            artifactId publishConfig.artifactId
+            version publishConfig.version
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                name = publishConfig.artifactId
+            }
+        }
+    }
+    repositories {
+        maven {
+            if (isDev) {
+                url = layout.buildDirectory.dir('../../repo')
+            }
+        }
+    }
+}

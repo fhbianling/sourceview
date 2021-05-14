@@ -1,5 +1,8 @@
-include ':sourceviewer'
-include ':sourceviewplugin'
-include ':sourceviewcore'
-include ':app'
+include ':example_android_lib'
+include ':example_app'
+include ':example_kotlin_lib'
+include ':example_java_lib'
+include ':source-plugin'
+include ':source-annotation'
+include ':source-core'
 rootProject.name = "M_SourceView"

@@ -1,0 +1,12 @@
+ext {
+    baseConfig = [
+            group: 'com.github.fhbianling'
+    ]
+    versionConfig = [
+            plugin    : "0.0.1",
+            annotation: "0.0.1"
+    ]
+    artifactConfig = [
+            plugin: "source-plugin"
+    ]
+}
