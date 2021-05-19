@@ -12,23 +12,27 @@ import java.security.MessageDigest
 
 internal const val ASSETS_NAME = "generated.srcv"
 
-object Source {
+class Source {
     private var mAssetsJson: AssetsJson? = null
+    private lateinit var context: Context
+    fun init(context: Context) {
+        this.context = context.applicationContext
+    }
 
-    fun query(context: Context, key: String): SourceIndex? {
-        getAssetsJson(context)?.let {
+    fun query(key: String): SourceIndex? {
+        getAssetsJson()?.let {
             return it.entry[key]
         }
         return null
     }
 
-    fun query(context: Context, name: String, moduleName: String): SourceIndex? {
-        return query(context, getMappingId(name, moduleName))
+    fun query(name: String, moduleName: String): SourceIndex? {
+        return query(getMappingId(name, moduleName))
     }
 
-    fun queryBytes(context: Context, sourceIndex: SourceIndex): ByteArray? {
+    fun queryBytes(sourceIndex: SourceIndex): ByteArray? {
         var result: ByteArray? = null
-        getAssetsJson(context)?.let {
+        getAssetsJson()?.let {
             val fileIndex = it.file.getOrNull(sourceIndex.fileId ?: -1) ?: return null
             context.openSource { bytes ->
                 result = bytes.readFileIndex(fileIndex)
@@ -37,16 +41,14 @@ object Source {
         return result
     }
 
-    internal fun attach(context: Context, sourceIndex: SourceIndex) {
-        getAssetsJson(context)?.let {
+    internal fun attach(sourceIndex: SourceIndex) {
+        getAssetsJson()?.let {
             val stored = it.entry[sourceIndex.id] ?: return
-            sourceIndex.type = stored.type
-            sourceIndex.children = stored.children
-            sourceIndex.fileId = stored.fileId
+            sourceIndex.copyStored(stored)
         }
     }
 
-    private fun getAssetsJson(context: Context): AssetsJson? {
+    private fun getAssetsJson(): AssetsJson? {
         if (mAssetsJson == null) {
             context.openSource {
                 val jsonBytesSize = it.readInt(0)
@@ -101,5 +103,12 @@ object Source {
             buf.append(Integer.toHexString(i))
         }
         return buf.toString().substring(8, 24)
+    }
+
+    companion object {
+        val instance: Source by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { Source() }
+        fun init(context: Context) {
+            instance.init(context)
+        }
     }
 }

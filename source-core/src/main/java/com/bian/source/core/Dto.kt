@@ -6,6 +6,23 @@ package com.bian.source.core
  * 类描述：
  */
 
+enum class Type(val id: String) {
+    Text("text"),
+    KotlinSource("kt"),
+    JavaSource("java"),
+    Xml("xml"),
+    Json("json"),
+    Markdown("md"),
+    Html("html"),
+    Dir("dir"),
+    Unknown("unknown");
+
+    companion object {
+        fun of(id: String?): Type {
+            return values().firstOrNull { it.id == id } ?: Unknown
+        }
+    }
+}
 
 internal data class FileIndex(val byteOffset: Int, val byteLength: Int)
 

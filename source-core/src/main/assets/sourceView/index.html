@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet"
+          type="text/css"
+          href="highlight_10.6.0_androidstudio.css">
+    <script type="text/javascript"
+            src="highlight.pack.js"></script>
+    <script>hljs.highlightAll();</script>
+    <style>
+        div {
+            margin-top: 30px;
+            font-size: 24px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="sourceCodeKey">SourceCodeViewer</div>
+<pre>
+    <code id="sourceCode">
+    </code>
+</pre>
+<script type="text/javascript">
+    function setSourceDto(dto){
+        document.getElementById("sourceCode").innerHTML = dto.content
+        document.getElementById("sourceCodeKey").innerHTML = dto.name
+        hljs.highlightAll()
+    }
+
+</script>
+</body>
+</html>
