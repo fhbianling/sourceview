@@ -17,30 +17,38 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/queryContent"
+        android:id="@+id/queryMainLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="queryContent"
+        android:text="MainLayout"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/queryChildByPath"
+        android:id="@+id/queryStrings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="queryChildByPath"
+        android:text="strings.xml"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/queryChildByName"
+        android:id="@+id/queryColors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="queryChildByName"
+        android:text="colors.xml"
         android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/querySrc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="src"
+        android:textAllCaps="false" />
+
 
     <androidx.constraintlayout.helper.widget.Flow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="queryContent,queryChildByPath,queryChildByName"
+        app:constraint_referenced_ids="queryMainLayout,queryStrings,queryColors,querySrc"
         app:flow_wrapMode="aligned"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

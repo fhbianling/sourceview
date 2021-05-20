@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -59,6 +60,7 @@ class SourceViewer(ctx: Context, attrs: AttributeSet) : WebView(ctx, attrs) {
                 sourceIndex.contentToString()
             )
             val json = gson.toJson(source)
+            Log.d("SourceViewer", "displaySource:$json")
             loadUrl("javascript:setSourceDto($json)")
         } else {
             cachedSourceIndex = sourceIndex

@@ -1,5 +1,8 @@
 package com.bian.source.core
 
+import android.os.Parcel
+import android.os.Parcelable
+
 /**
  * author fhbianling@163.com
  * date 2021/5/14 14:38
@@ -24,7 +27,32 @@ enum class Type(val id: String) {
     }
 }
 
-internal data class FileIndex(val byteOffset: Int, val byteLength: Int)
+internal data class FileIndex(val byteOffset: Int, val byteLength: Int) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readInt()
+    ) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(byteOffset)
+        parcel.writeInt(byteLength)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<FileIndex> {
+        override fun createFromParcel(parcel: Parcel): FileIndex {
+            return FileIndex(parcel)
+        }
+
+        override fun newArray(size: Int): Array<FileIndex?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
 
 internal data class AssetsJson(
     val file: Array<FileIndex>,

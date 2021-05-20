@@ -12,15 +12,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Source.init(this)
         val tv = findViewById<TextView>(R.id.text)
-        findViewById<View>(R.id.queryContent).setOnClickListener {
-            tv.text = SourceBinding.mainLayout.contentToString()
+        findViewById<View>(R.id.queryMainLayout).setOnClickListener {
+            SourceBinding.mainLayout.open(this)
         }
-        findViewById<View>(R.id.queryChildByPath).setOnClickListener {
-            tv.text = SourceBinding.src["src/main/res/values/strings.xml"]?.contentToString()
+        findViewById<View>(R.id.queryStrings).setOnClickListener {
+            SourceBinding.src["src/main/res/values/strings.xml"]?.open(this)
         }
-        findViewById<View>(R.id.queryChildByName).setOnClickListener {
-            tv.text = SourceBinding.src["colors.xml"]?.contentToString()
+        findViewById<View>(R.id.queryColors).setOnClickListener {
+            SourceBinding.src["colors.xml"]?.open(this)
+        }
 
+        findViewById<View>(R.id.querySrc).setOnClickListener {
+            SourceBinding.src?.open(this)
         }
     }
 }

@@ -1,11 +1,9 @@
 package com.bian.source.core
 
 import android.content.Context
-import android.os.Parcel
-import android.os.Parcelable
-import com.bian.source.core.view.SourceActivity
+import com.bian.source.core.view.DirSourceActivity
+import com.bian.source.core.view.FileSourceActivity
 import com.google.gson.annotations.SerializedName
-import java.io.File
 import java.util.*
 
 /**
@@ -13,63 +11,65 @@ import java.util.*
  * date 2021/5/14 15:15
  * 类描述：
  */
-class SourceIndex() : Parcelable {
+class SourceIndex() {
     var name: String? = null
     var type: String? = null
 
     @SerializedName("index")
     var fileId: Int? = null
-    private var children: List<SourceIndex>? = null
-    private var attached = false
 
+    internal var children: List<SourceIndex>? = null
     internal var id: String? = null
 
-    constructor(parcel: Parcel) : this() {
-        name = parcel.readString()
-        type = parcel.readString()
-        fileId = parcel.readValue(Int::class.java.classLoader) as? Int
-        children = parcel.createTypedArrayList(CREATOR)
-        attached = parcel.readByte() != 0.toByte()
-        id = parcel.readString()
-    }
+    private var _rootId: String? = null
+    private var _path: String? = null
+
+    internal var rootId: String?
+        get() {
+            ensureAttach()
+            return _rootId
+        }
+        set(value) {
+            _rootId = value
+        }
+    var path: String?
+        get() {
+            ensureAttach()
+            return _path
+        }
+        internal set(value) {
+            _path = value
+        }
+
+    private var attached = false
 
     constructor(name: String, id: String) : this() {
         this.name = name
         this.id = id
     }
 
-    fun queryContent(): ByteArray? {
+    fun content(): ByteArray? {
         ensureAttach()
         return Source.instance.queryBytes(this)
     }
 
     fun contentToString(): String {
-        return queryContent()?.let { Util.fixSourceContent(String(it), Type.of(type)) } ?: ""
-    }
-
-    internal fun copyStored(stored: SourceIndex) {
-        type = stored.type
-        children = stored.children
-        fileId = stored.fileId
+        return content()?.let { fixSourceContent(String(it)) } ?: ""
     }
 
     fun queryChildByPath(path: String): SourceIndex? {
         ensureAttach()
-        if (children == null) return null
-        val delimiter = if (path.contains("\\")) "\\" else "/"
-        val split = path.split(delimiter)
-        if (split.size < 2) return null
-        var child = findChildByName(split[1]) ?: return null
-        var index = 2
-        while (index != split.size) {
-            child = child.findChildByName(split[index]) ?: return null
-            index++
-        }
-        return child
+        return internalQueryChildByPath(path)
     }
 
-    fun view(context: Context) {
-        SourceActivity.start(context, this)
+    fun open(context: Context) {
+        ensureAttach()
+        if (isDir) {
+            if (_path != null && id != null)
+                DirSourceActivity.start(context, this)
+        } else {
+            FileSourceActivity.start(context, this)
+        }
     }
 
     fun queryChildByName(
@@ -77,31 +77,34 @@ class SourceIndex() : Parcelable {
         onlyFile: Boolean = true
     ): Array<SourceIndex> {
         ensureAttach()
-        if (children == null) return emptyArray()
-        val list = mutableListOf<SourceIndex>()
+        return internalQueryChildByName(name, onlyFile)
+    }
+
+    private fun fixChildPath() {
         children?.forEach {
-            val isFile = it.type != Type.Dir.id
-            if (it.name == name) {
-                if (isFile || !onlyFile) {
-                    list.add(it)
-                }
-            } else {
-                it.queryChildByName(name, onlyFile).let { collection ->
-                    list.addAll(collection)
-                }
+            if (it._path == null) {
+                it._path = "$_path$PATH_DELIMITER${it.name}"
+                it._rootId = _rootId
+            }
+            if (it.isDir && it.children != null) {
+                it.fixChildPath()
             }
         }
-        return list.toTypedArray()
+    }
+
+    internal fun copyStored(stored: SourceIndex) {
+        type = stored.type
+        children = stored.children
+        fileId = stored.fileId
+        _path = name
+        _rootId = id
+        fixChildPath()
     }
 
     operator fun get(key: String): SourceIndex? {
         if (key.contains("\\") || key.contains("/"))
             return queryChildByPath(key)
         return queryChildByName(key).firstOrNull()
-    }
-
-    private fun findChildByName(name: String?): SourceIndex? {
-        return children?.firstOrNull { it.name == name }
     }
 
     private fun ensureAttach() {
@@ -112,29 +115,11 @@ class SourceIndex() : Parcelable {
     }
 
     override fun toString(): String {
-        return "SourceIndex(name=$name, type=$type, children=$children)"
+        return "SourceIndex(name=$name, type=$type, fileId=$fileId, children=$children, id=$id, rootId=$_rootId, path=$_path, attached=$attached)"
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(name)
-        parcel.writeString(type)
-        parcel.writeValue(fileId)
-        parcel.writeTypedList(children)
-        parcel.writeByte(if (attached) 1 else 0)
-        parcel.writeString(id)
-    }
 
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<SourceIndex> {
-        override fun createFromParcel(parcel: Parcel): SourceIndex {
-            return SourceIndex(parcel)
-        }
-
-        override fun newArray(size: Int): Array<SourceIndex?> {
-            return arrayOfNulls(size)
-        }
+    companion object {
+        const val PATH_DELIMITER = "\\"
     }
 }
