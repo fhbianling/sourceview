@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<View>(R.id.queryColors).setOnClickListener {
             SourceBinding.src["colors.xml"]?.open(this)
+//            com.bian.example_android_lib.SourceBinding.src?.open(this)
         }
 
         findViewById<View>(R.id.querySrc).setOnClickListener {

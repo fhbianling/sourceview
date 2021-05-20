@@ -2,7 +2,7 @@
 buildscript {
     apply from: "config.gradle"
     ext.kotlin_version = "1.5.0"
-    ext.gradle_version = "4.2.0"
+    ext.gradle_version = '4.2.1'
     ext.isDev = true
     repositories {
         if (isDev) {

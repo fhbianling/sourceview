@@ -23,12 +23,12 @@ dependencies {
 
 rootProject.ext.publishConfig = [
         groupId   : baseConfig.group,
-        version   : versionConfig.plugin,
+        version   : publishVersionConfig.plugin,
         artifactId: artifactConfig.plugin
 ]
 
 apply from: "../publish_java.gradle"
 
 task publishRepo(group: "local")
-
+publish.dependsOn(assemble)
 publishRepo.dependsOn(publish)
