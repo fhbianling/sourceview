@@ -54,7 +54,7 @@ class SourceViewer(ctx: Context, attrs: AttributeSet) : WebView(ctx, attrs) {
 
     fun displaySource(sourceIndex: SourceIndex) {
         if (pagePrepared) {
-            val source = Source(
+            val source = SourceDto(
                 sourceIndex.name ?: "",
                 sourceIndex.type ?: Type.Text.id,
                 sourceIndex.contentToString()
@@ -67,5 +67,7 @@ class SourceViewer(ctx: Context, attrs: AttributeSet) : WebView(ctx, attrs) {
         }
     }
 
-    private data class Source(val name: String, val type: String, val content: String)
+    private data class SourceDto(
+        val name: String, val type: String, val content: String
+    )
 }

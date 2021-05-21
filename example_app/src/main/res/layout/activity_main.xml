@@ -6,49 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
-        android:id="@+id/queryMainLayout"
+        android:id="@+id/queryDir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MainLayout"
+        android:text="dir"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/queryStrings"
+        android:id="@+id/queryXml"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="strings.xml"
+        android:text="xml"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/queryColors"
+        android:id="@+id/queryMd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="colors.xml"
+        android:text="md"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/querySrc"
+        android:id="@+id/queryJson"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="src"
+        android:text="json"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/queryHtml"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="html"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/queryKt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kotlin"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/queryJava"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="java"
+        android:textAllCaps="false" />
 
     <androidx.constraintlayout.helper.widget.Flow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="queryMainLayout,queryStrings,queryColors,querySrc"
+        app:constraint_referenced_ids="queryDir,queryXml,queryMd,queryJson,queryHtml,queryKt,queryJava"
         app:flow_wrapMode="aligned"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

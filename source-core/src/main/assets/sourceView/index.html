@@ -3,33 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!--          href="highlight_10.6.0_androidstudio.css">-->
     <link rel="stylesheet"
           type="text/css"
-          href="highlight_10.6.0_androidstudio.css">
+          href="github.css">
     <script type="text/javascript"
             src="highlight.pack.js"></script>
+    <script type="text/javascript" src="markdown-it.min.js"></script>
     <script>hljs.highlightAll();</script>
     <style>
         div {
             margin-top: 30px;
             font-size: 24px;
         }
-
     </style>
 </head>
 <body>
 <div id="sourceCodeKey">SourceCodeViewer</div>
-<pre>
+<pre id="pre">
     <code id="sourceCode">
     </code>
-</pre>
 <script type="text/javascript">
-    function setSourceDto(dto){
-        document.getElementById("sourceCode").innerHTML = dto.content
-        document.getElementById("sourceCodeKey").innerHTML = dto.name
+    let sourceCode =  document.getElementById("sourceCode")
+
+    function setSourceDto(dto) {
+        if (dto.type === "md") {
+            let md = window.markdownit({
+                html: true,
+                xhtmlOut: true,
+                breaks: true,
+                langPrefix: "language-",
+                linkify:false,
+                typographer:true,
+                highlight: function (str, lang) {
+                    str = str.replace(/&lt;/g, "<");
+                    str = str.replace(/&gt;/g, ">");
+
+                    if (lang && hljs.getLanguage(lang)) {
+                        try {
+                            return '<pre class="hljs"><code>' +
+                                hljs.highlight(lang, str, true).value +
+                                '</code></pre>';
+                        } catch (__) {
+                        }
+                    }
+
+                    return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+                }
+            })
+            sourceCode.innerHTML = md.render(dto.content)
+        } else {
+            sourceCode.innerHTML = dto.content
+        }
         hljs.highlightAll()
     }
-
 </script>
+</pre>
 </body>
 </html>

@@ -3,8 +3,8 @@ ext {
             group: 'com.github.fhbianling'
     ]
     versionConfig = [
-            plugin: "0.0.1",
-            core  : "0.0.1"
+            plugin: "0.0.2",
+            core  : "0.0.2"
     ]
     publishVersionConfig = [
             plugin: "0.0.2",

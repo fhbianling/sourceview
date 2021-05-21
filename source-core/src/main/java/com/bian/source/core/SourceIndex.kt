@@ -53,8 +53,11 @@ class SourceIndex() {
         return Source.instance.queryBytes(this)
     }
 
-    fun contentToString(): String {
-        return content()?.let { fixSourceContent(String(it)) } ?: ""
+    fun contentToString(fixIt: Boolean = true): String {
+        return content()?.let {
+            val origin = String(it)
+            if (fixIt) fixSourceContent(origin) else origin
+        } ?: ""
     }
 
     fun queryChildByPath(path: String): SourceIndex? {

@@ -34,8 +34,13 @@ android {
 }
 
 sourceView {
-    src path: "src\\main\\res\\layout\\activity_main.xml", name: "MainLayout"
-    dir "src"
+    dir path: "src", name: "dir"
+    src path: "src\\main\\res\\layout\\activity_main.xml", name: "xml"
+    src path: "extra\\extra.md", name: "markdwon"
+    src path: "extra\\extra.json", name: "json"
+    src path: "extra\\extra.html", name: "html"
+    src path: "extra\\extra.kt", name: "kotlin"
+    src path: "extra\\extra.java", name: "java"
 }
 
 dependencies {

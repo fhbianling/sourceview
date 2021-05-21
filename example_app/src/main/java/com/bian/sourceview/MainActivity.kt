@@ -2,7 +2,6 @@ package com.bian.sourceview
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bian.source.core.Source
 
@@ -11,20 +10,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Source.init(this)
-        val tv = findViewById<TextView>(R.id.text)
-        findViewById<View>(R.id.queryMainLayout).setOnClickListener {
-            SourceBinding.mainLayout.open(this)
+        findViewById<View>(R.id.queryDir).setOnClickListener {
+            SourceBinding.dir.open(this)
         }
-        findViewById<View>(R.id.queryStrings).setOnClickListener {
-            SourceBinding.src["src/main/res/values/strings.xml"]?.open(this)
+        findViewById<View>(R.id.queryXml).setOnClickListener {
+            SourceBinding.xml.open(this)
         }
-        findViewById<View>(R.id.queryColors).setOnClickListener {
-            SourceBinding.src["colors.xml"]?.open(this)
-//            com.bian.example_android_lib.SourceBinding.src?.open(this)
+        findViewById<View>(R.id.queryMd).setOnClickListener {
+            SourceBinding.markdwon.open(this)
         }
-
-        findViewById<View>(R.id.querySrc).setOnClickListener {
-            SourceBinding.src?.open(this)
+        findViewById<View>(R.id.queryJson).setOnClickListener {
+            SourceBinding.json.open(this)
+        }
+        findViewById<View>(R.id.queryHtml).setOnClickListener {
+            SourceBinding.html.open(this)
+        }
+        findViewById<View>(R.id.queryKt).setOnClickListener {
+            SourceBinding.kotlin.open(this)
+        }
+        findViewById<View>(R.id.queryJava).setOnClickListener {
+            SourceBinding.java.open(this)
         }
     }
 }

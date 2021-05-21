@@ -3,6 +3,7 @@ package com.bian.source.core.view
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import com.bian.source.core.R
@@ -17,6 +18,7 @@ import com.bian.source.core.SourceIndex
 class FileSourceActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         setContentView(R.layout.file_source)
         val path = intent.getStringExtra(KEY_PATH) ?: ""
         val id = intent.getStringExtra(KEY_ID) ?: ""

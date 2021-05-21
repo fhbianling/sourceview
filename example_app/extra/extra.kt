@@ -109,24 +109,13 @@ internal fun SourceIndex.findChildByName(name: String?): SourceIndex? {
 }
 
 fun SourceIndex.fixSourceContent(source: String): String {
-    return when (type) {
-        Type.Xml.id -> {
-            fixXml(source)
-        }
-        Type.Json.id -> {
-            fixJson(source)
-        }
-        Type.Html.id -> {
-            fixHtml(source)
-        }
-        else -> {
-            source
-        }
+    var fixed = source
+    if (type == Type.Xml.id) {
+        fixed = fixXml(fixed)
+    } else if (type == Type.Json.id) {
+        fixed = fixJson(fixed)
     }
-}
-
-private fun fixHtml(html: String): String {
-    return fixXml(html)
+    return fixed
 }
 
 // 对于xml,html,highlight.js需要将<>更换为对应转义符
