@@ -19,12 +19,13 @@
     </style>
 </head>
 <body>
-<div id="sourceCodeKey">SourceCodeViewer</div>
+<div id="title">SourceCodeViewer</div>
 <pre id="pre">
     <code id="sourceCode">
     </code>
 <script type="text/javascript">
     let sourceCode =  document.getElementById("sourceCode")
+    let title = document.getElementById("title")
 
     function setSourceDto(dto) {
         if (dto.type === "md") {
@@ -55,6 +56,7 @@
         } else {
             sourceCode.innerHTML = dto.content
         }
+        title.innerHTML = dto.path
         hljs.highlightAll()
     }
 </script>

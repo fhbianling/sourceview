@@ -32,7 +32,7 @@ android {
     }
 }
 sourceView {
-    dir "src"
+    src path: "src/main/java/com/bian/example_android_lib/SomeClass.kt", name: "Test"
 }
 
 dependencies {

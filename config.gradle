@@ -3,11 +3,11 @@ ext {
             group: 'com.github.fhbianling'
     ]
     versionConfig = [
-            plugin: "0.0.2",
+            plugin: "0.0.3",
             core  : "0.0.2"
     ]
     publishVersionConfig = [
-            plugin: "0.0.2",
+            plugin: "0.0.3",
             core  : "0.0.2"
     ]
     artifactConfig = [

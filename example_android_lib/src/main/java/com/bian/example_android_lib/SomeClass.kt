@@ -6,4 +6,7 @@ package com.bian.example_android_lib
  * 类描述：
  */
 class SomeClass {
+    init {
+        println("aaa,bbb")
+    }
 }

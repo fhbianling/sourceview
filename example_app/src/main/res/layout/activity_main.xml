@@ -55,10 +55,17 @@
         android:text="java"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/goLib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="goLib"
+        android:textAllCaps="false" />
+
     <androidx.constraintlayout.helper.widget.Flow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="queryDir,queryXml,queryMd,queryJson,queryHtml,queryKt,queryJava"
+        app:constraint_referenced_ids="queryDir,queryXml,queryMd,queryJson,queryHtml,queryKt,queryJava,goLib"
         app:flow_wrapMode="aligned"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

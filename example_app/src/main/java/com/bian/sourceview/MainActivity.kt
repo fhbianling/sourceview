@@ -1,8 +1,10 @@
 package com.bian.sourceview
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.bian.example_android_lib.TestActivity
 import com.bian.source.core.Source
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +32,10 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<View>(R.id.queryJava).setOnClickListener {
             SourceBinding.java.open(this)
+        }
+        findViewById<View>(R.id.goLib).setOnClickListener {
+            val intent = Intent(this, TestActivity::class.java)
+            startActivity(intent)
         }
     }
 }

@@ -15,6 +15,15 @@ class SourceIndex() {
     var name: String? = null
     var type: String? = null
 
+    // 相对Module根目录的路径
+    private var filePath: String? = null
+
+    val relativeFilePath: String?
+        get() {
+            ensureAttach()
+            return filePath
+        }
+
     @SerializedName("index")
     var fileId: Int? = null
 
@@ -32,6 +41,8 @@ class SourceIndex() {
         set(value) {
             _rootId = value
         }
+
+    // 相对上一级的路径
     var path: String?
         get() {
             ensureAttach()
@@ -99,6 +110,8 @@ class SourceIndex() {
         type = stored.type
         children = stored.children
         fileId = stored.fileId
+        filePath = stored.filePath
+
         _path = name
         _rootId = id
         fixChildPath()

@@ -20,7 +20,9 @@ class AssetsGenerator {
         def map = new LinkedHashMap<String, Chunk>()
         sourceBundles.each { SourceBundle bundle ->
             bundle.mappingList.each { mapping ->
-                Chunk chunk = getChunk(mapping, fileContainer, bundle.ignoreUnknownFile, bundle.ignoreEmptyDirectory)
+                Chunk chunk = getChunk(mapping, fileContainer,
+                        bundle.ignoreUnknownFile,
+                        bundle.ignoreEmptyDirectory, project)
                 if (chunk != null) {
                     map[getMappingId(mapping.name, bundle.moduleName)] = chunk
                 }
@@ -42,23 +44,23 @@ class AssetsGenerator {
     }
 
     static Chunk getChunk(Mapping mapping, FileContainer fileContainer,
-                          boolean ignoreUnknown, boolean ignoreEmpty) {
+                          boolean ignoreUnknown, boolean ignoreEmpty, Project project) {
         Chunk chunk = null
         def file = new File(mapping.path)
         if (file.exists()) {
             if (mapping.typeId == Type.Dir.id) {
                 if (file.isDirectory()) {
                     chunk = new DirChunk(mapping.name, file,
-                            fileContainer, ignoreUnknown, ignoreEmpty)
+                            fileContainer, ignoreUnknown, ignoreEmpty, project.rootDir)
                 } else {
                     throw new IllegalArgumentException("dir(..) must applied to directory:$mapping")
                 }
             } else {
                 if (file.isDirectory()) {
-                    throw new IllegalArgumentException("file(..) must applied to file:$mapping")
+                    throw new IllegalArgumentException("src(..) must applied to file:$mapping")
                 } else {
                     if (!(ignoreUnknown && mapping.typeId == Type.Unknown.id)) {
-                        chunk = new FileChunk(mapping.name, mapping.typeId, file)
+                        chunk = new FileChunk(mapping.name, mapping.typeId, file, project.rootDir)
                         fileContainer.putFile(file)
                     }
                 }

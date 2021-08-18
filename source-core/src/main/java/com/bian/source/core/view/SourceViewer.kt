@@ -57,7 +57,8 @@ class SourceViewer(ctx: Context, attrs: AttributeSet) : WebView(ctx, attrs) {
             val source = SourceDto(
                 sourceIndex.name ?: "",
                 sourceIndex.type ?: Type.Text.id,
-                sourceIndex.contentToString()
+                sourceIndex.contentToString(),
+                sourceIndex.relativeFilePath ?: sourceIndex.name ?: ""
             )
             val json = gson.toJson(source)
             Log.d("SourceViewer", "displaySource:$json")
@@ -68,6 +69,6 @@ class SourceViewer(ctx: Context, attrs: AttributeSet) : WebView(ctx, attrs) {
     }
 
     private data class SourceDto(
-        val name: String, val type: String, val content: String
+        val name: String, val type: String, val content: String, val path: String
     )
 }

@@ -1,12 +1,12 @@
 package com.bian.source.plugin
 
-import com.android.build.api.variant.ApplicationVariant
+
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
+import com.android.build.gradle.TestedExtension
 import com.android.build.gradle.api.BaseVariant
 import com.android.ide.common.xml.AndroidManifestParser
-import com.bian.source.plugin.dto.Mapping
 import com.bian.source.plugin.dto.SourceBundle
 import com.bian.source.plugin.task.GenerateAssets
 import com.bian.source.plugin.task.GenerateBinding
@@ -35,7 +35,10 @@ class SourcePlugin implements Plugin<Project> {
     }
 
     private void registerAssetsGenerateTask(Project target) {
-        if (!(baseExt instanceof AppExtension)) return
+        if (!(baseExt instanceof AppExtension)) {
+            println("assets only generated in com.android.application")
+            return
+        }
         def assetsOutputDir = outputAssetsDir(target)
         baseExt.sourceSets.main.assets.srcDir(assetsOutputDir)
         def task = target.tasks.register("generateAssets", GenerateAssets) { GenerateAssets generateAssets ->
@@ -49,12 +52,13 @@ class SourcePlugin implements Plugin<Project> {
                 }
                 generateAssets.sourceBundles = sourceExtensions
                 generateAssets.outputDir = new File(assetsOutputDir)
+                println("generated asset:$generateAssets.outputDir")
             } catch (Exception e) {
                 println(e.message)
             }
         }
-        (baseExt as AppExtension).applicationVariants.all { variant ->
-            (variant as ApplicationVariant).mergeAssetsProvider.get().dependsOn(task)
+        getVariants(baseExt).all { variant ->
+            (variant as BaseVariant).mergeAssetsProvider.get().dependsOn(task)
         }
     }
 
@@ -108,20 +112,5 @@ class SourcePlugin implements Plugin<Project> {
 
     static String outputClassDir(Project project) {
         return "$project.buildDir\\generated\\source\\sourceView"
-    }
-
-
-    static class SourceExtensionInfo implements Serializable {
-        Boolean ignoreUnknownFile = true
-        Boolean ignoreEmptyDirectory = true
-        String moduleName
-        ArrayList<Mapping> mappingList
-
-        SourceExtensionInfo(SourceExt ext) {
-            ignoreUnknownFile = ext.ignoreUnknownFile
-            ignoreEmptyDirectory = ext.ignoreEmptyDirectory
-            moduleName = ext.moduleName
-            mappingList = new ArrayList<>(ext.mappingList)
-        }
     }
 }
